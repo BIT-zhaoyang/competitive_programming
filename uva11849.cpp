@@ -12,6 +12,18 @@
 using namespace std;
 
 int main(){ _
+    int N, M;
+    cin >> N >> M;
+    while(N != 0 && M != 0){
+        set<int> si;
+        int cd;
+        for(int i = 0; i < N+M; ++i){
+            cin >> cd;
+            si.insert(cd);
+        }
 
+        cout << N+M - si.size() << endl;
+        cin >> N >> M;
+    }
     return 0;
 }
