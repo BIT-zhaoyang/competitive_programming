@@ -1,48 +1,46 @@
-//
-//  uva10130.cpp
-//  
-//
-//  Created by 赵洋 on 15/11/10.
-//
-//
-
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
+#define _ ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0), cout.precision(15);
 
 using namespace std;
 
-int compute(int S, vector<int> &price, vector<int> &weight){
-    int n = price.size();
-    
-    
+int p[1100], w[1100];
+int table[2][40];
+
+int knapsack(int n, int s){
+    // int n = p.size();
+    // vector< vector<int> > table(n, vector<int> (s+1, 0));
+    int prev = 0, curr = 1;
+    memset(table, 0, sizeof table);
+
+    for(int i = 0; i < n; ++i){
+        for(int j = 0; j <= s; ++j){
+            if(j >= w[i])   table[curr][j] = max(table[prev][j], table[prev][j-w[i]] + p[i]);
+            else table[curr][j] = table[prev][j];
+        }
+        prev = 1 - prev;
+        curr = 1 - curr;
+    }
+    return table[prev][s];
 }
 
-int main(){
-    int T;
-    cin >> T;
-    while(T--) {
-        int N;
-        vector<int> price(N, 0);
-        vector<int> weight(N, 0);
-        
-        for(int i = 0; i < N; ++i){
-            cin >> price[i] >> weight[i];
+int main(){ _
+    int TC; cin >> TC;
+    memset(p, 0, sizeof p); memset(w, 0, sizeof w);
+    memset(table, 0, sizeof table);
+    while(TC--){
+        int n;  cin >> n;
+        for(int i = 0; i < n; ++i){
+            cin >> p[i] >> w[i];
         }
-        
-        int nP;
-        cin >> nP;
-        vector<int> peopel(nP, 0);
-        for(int i = 0; i < nP; ++i){
-            cin >> peopel[i];
+
+        int t; cin >> t;
+        int s = 0, sum = 0;
+        for(int i = 0; i < t; ++i){
+            cin >> s;
+            sum += knapsack(n, s);
         }
-        
-        int value = 0;
-        for(int i = 0; i < nP; ++i){
-            value += compute(peopel[i], price, weight);
-        }
-        
-        cout << value;
+
+        cout << sum << endl;
     }
-    
     return 0;
 }
