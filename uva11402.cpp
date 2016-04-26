@@ -7,7 +7,8 @@ using namespace std;
 /*
     References: http://lbv-pc.blogspot.fi/2012/10/ahoy-pirates_24.html
     Notes:
-        Whenever we need to read values from a node, and its children has pending updating operations to be done, no matter we will go to that children we need to perform the update first since the children's value will affect this node's value which will affect the result!
+        1. Whenever we need to read values from a node, and its children has pending updating operations to be done, no matter we will go to that children we need to perform the update first since the children's value will affect this node's value which will affect the result!
+        2. The lazy updates saves the propogates between a node whose range (l, r) is completel covered by the given range (s, e) to its leaves. Nodes above the node with range (l, r) will all be affected and they must be updated in time as we coded in how we update a single leaf in previous easier problems.
 */
 
 class SegmentTree{
