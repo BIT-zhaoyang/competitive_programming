@@ -82,6 +82,10 @@ private:
         update(p, s, e);
         if(s > r || e < l)  return;
         if(s >= l && e <=r){
+            // We should keep changing until we reach a node whose range (s, e) is covered by the given range (l, r)
+            // Then we update this node(later the recursivly called function change will backtrack to update all nodes above this node)
+            // And in the update function, it will propogate updated information to its children if any.
+            // Then the whole change process will stop.
             mutate[p] = type;
             update(p, s, e);
             return;
