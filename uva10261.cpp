@@ -12,6 +12,8 @@
 #include <iomanip>
 #include <tuple>
 
+// Reference:  http://cs.nyu.edu/courses/summer13/CSCI-UA.0380-001/content/bowen-midterm/UVA_10261_-_Ferry_Loading_-_Bowen_Yu.pptx.
+
 #define _ ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0), cout.precision(15);
 using namespace std;
 
