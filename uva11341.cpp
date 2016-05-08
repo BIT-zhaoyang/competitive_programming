@@ -19,7 +19,7 @@ using namespace std;
 
     Also, the requirement, each selected candidate should be equal or larger than 5 otherwise there is no solution, makes the problem more complicated.
 
-    Finally, I successfully solved this problem by setting each candidate which is less than 5 to a big negative value. This conversion implicitly forces the result to satisfy the requirement. Otherwise, the final result will be a large negative value which means there is no solution. Similar to uva00836.
+    Finally, I successfully solved this problem by setting each candidate which is less than 5 to a big negative value. This conversion implicitly forces the result to satisfy the requirement. Otherwise, the final result will be a large negative value which means there is no solution. Similar to uva00836. In other words, use negative value to represent illegal states.
 */
 
 
