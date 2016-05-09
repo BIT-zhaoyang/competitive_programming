@@ -16,6 +16,13 @@ using namespace std;
 /* The difference between this problem and previous problems I solved is that this one asks us to fill the bag with exact the volume rather than leaving empty space.
 
 So the optimal substructure is: "Spend !!exact!! money b(udget), what's the maximal favor we can get?" rather than "Spend !!within!! money b(duget), what's the maximal favor we can get?".
+
+Consider this example input:
+1999
+1998 4
+2000 3
+2 2
+The optimal choice is 3(2000) + 2(2) = 5.
 */
 
 int helper(int _m, int n, vector<int> &v, vector<int> &f){
