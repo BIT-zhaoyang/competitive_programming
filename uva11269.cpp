@@ -22,6 +22,8 @@ using namespace std;
     PS: the concise representation of t1 = a1.S + max(a1.G, a2.S) + a2.G is another technique I learned. Previously, I even want to represent this use an if-else statement based on comparing a1.G & a2.S. So, !!!sometimes!!!, make program as concise as possible is not a good thing, but not always!
 
     PSS: the more general greedy rule in uva10026 can be obtained in the same way. Actually that rule    used in uva10026 is already a more general rule. It's just further transformed to record other values while reading inputs.
+
+    PSSS: I just realized I have seen the same proof in uva10037. Oh... I guess now I have a deeper understanding of this problem solving pattern.
 */
 
 #define S first
