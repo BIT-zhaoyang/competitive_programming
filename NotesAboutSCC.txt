@@ -1,0 +1,58 @@
+Today I really learned something about SCC.
+SCC only applies to **directed** graph. While articulation point(AP) and bridge apply to **undirected** graph. I used to think about the relation about AP and SCC, like: does all AP form a root of a SCC? Now I realized that I mixed the concepts. There is indeed some relation between the algorithms for these two problems. The are very similiar. Yes! They are all based on DFS! That's probably why I thought there might be a linkage between these two problems. However, the presence of direction of the links make the algorithms different. Below I will write a snippet of both these algorithms and discuss how the direction makes them different.
+
+void findArticulationPoint(int p){
+    dfs_num[p] = dfs_low[p] = dfsCounter++;
+
+    int q;
+    for(int i = 0; i < AdjList[p].size(); ++i){
+        q = AdjList[p][i];
+
+        if(dfs_num[q] == UNVISITED){
+            parent[q] = p;
+            if(p == root)   ++numRootChild;
+
+            findArticulationPoint(q);
+
+            if(dfs_low[q] >= dfs_num[p])    articulation[p] = true;
+            dfs_low[p] = min(dfs_low[p], dfs_low[q]);
+        } else if(q != parent[p]){
+            dfs_low[p] = min(dfs_low[p], dfs_num[q]);
+        }
+    }
+}
+
+
+void SCC(int p){
+    dfs_num[p] = dfs_low[p] = dfsCounter++;
+    stack.push_back(p);     // Abuse useage of stack. If we have included <stack> header, we can't
+    inStack[p] = true;      // use stack here.
+
+    int q;
+    for(int i = 0; i < AdjList[p].size(); ++i){
+        q = AdjList[p][i];
+
+        if(dfs_num[q] == UNVISITED) SCC(q);
+        if(inStack[q])  dfs_low[p] = min(dfs_low[p], dfs_low[q]);
+    }
+
+    if(dfs_low[p] == dfs_num[p]){
+        cout << "SCC " << ++numSCC << endl;
+        while(true){
+            q = stack.top();
+            stack.pop();
+            inStack[q] = false;
+            if(q != p)  cout << q << " ";
+            else{
+                cout << q << endl;
+                break;
+            }
+        }
+    }
+}
+
+Now let's discuss these two algorithms. Let's forget line 13 as it's a special case for findArticulationPoint but focus on difference caused by the presence of directions of links. As we can see, the common part is that they all maintain dfs_low and dfs_num, namely, the time of discovering a point and the lowest/earliest discovered point they can reach. That's the common part.
+
+The different part is, in findAP, we maintain a vector called parent while in SCC we maintain a stack. The reason to maintain a parent vector in findAP is that, we are dealing with an undirected graph. Thus, we shouldn't treat the parent of a node also as its child. That's why in line 19, there is a condition if(q != parent[p]). In SCC, we maintain a stack to record what are the vertices that haven't returned from their calling of SCC on them. In terms of CLRS, the stack maintains vertices that are gray. (Notice that when a vertex is gray it's in the stack. But when it turns to black, it  was removed. Here, a vertex turns to black only when the SCC it is in was removed which happens at line 41 - line 49.) The reason to maintain such a stack is that, the occurrence of direction leads to the appearance of cross edge. In contrast, in an undirected graph, there will be only forward edges and back edges. The occurrence complicates our problem. When we compute the dfs_low, we shouldn't consider cross edges. For example, in a DAG, the edges are 1->2, 1->3, and 3->2. All these vertices form a SCC by themselves. The condition we used to judge if a vertex is a root of SCC is that whether dfs_low[p] == dfs_num[p]. If we consider cross edges, then the edge 3->2 will change dfs_low[3] = 2 which says 3 is not a root of a SCC but part of another SCC. So the algorithm will be incorrect. In conclusion, in both algorithms, only the forward edges and back edges matter! So how do we avoid considering the cross edge. Maintaining the stack works since only gray vertices stay in the stack. Cross edge goes from gray vertex to a black vertex. But black vertex will not be presented in the stack thus cross edges will be skipped while computing.
+
+Another tricky part is line 20 and line 36. In line 36, we can also write "dfs_low[p] = min(dfs_low[p], dfs_low[q]);" as "dfs_low[p] = min(dfs_low[p], dfs_num[q]);". Namely, change dfs_low[q] to dfs_num[q]. However, the first one also works. The reason is that, if 'q' can reach an  earlier vertex, then 'q' must be part of a SCC so it can be connect to any other point in the SCC. Now 'p' can reach 'q', then since 'q' reaches any other point in the SCC, 'p' can also reach them. Thus, we can say "dfs_low[p] = min(dfs_low[p], dfs_low[q]);". However, notice that this doesn't hold for findAP at line 20. Consider this example which has edges 1-2, 2-3, 3-4, 4-5, 1-3, 3-5.(Notice that I used 1-3 rather than 1->3 to indicate this is an undirected graph). This is also caused by the occurrence of direction in edges.
