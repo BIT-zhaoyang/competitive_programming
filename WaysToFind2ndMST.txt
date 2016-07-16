@@ -12,9 +12,4 @@ UAlberta method:
 This algorithm takes O(V * V) time and uses O(V * V) space.
 
 LCA methods:
-Let's use the LCA implmented described in Competitive Programming 3 on page 360. In addition to the three vectors H(which equals dfs_num), E(sequence of nodes visited), and L(sequence of the layers of the nodes visited), we maintain another vector, P(sequence of weights of edges visited). Then, after picking a new edge {x, y} which will create a loop from {x, y}, we just compute idx = RangeMaximumQuery(H[x], H[y]) on vector P. Then the edge P[idx] is the edge having the largest weight on the loop from x to y. The intuition is that, the path between x and y on the best MST T is P[H[x]:H[y]]. Thus, query the RMQ in this range gives us the edge having the largest weight on the loop.
-
-Using spare table to process the RMQ takes O(nlogn) preprocess time and O(1) query time, where n equals |V| since a DFS visits 2*|V|-1 nodes on a tree. The sparse table uses up to O(VlogV) space. Thus, this method is better than the UAlberta method!
-
-
-The answer by Gerald on this page http://stackoverflow.com/questions/22109647/faster-second-best-mst-algorithm described the same idea as I wrote. In fact, it was after I took a glimpse at one line of this answer that I came up with the idea. However, his description is more mixed up which is not clear enough.
+Refer to the answer by Gerald on this page http://stackoverflow.com/questions/22109647/faster-second-best-mst-algorithm . It has the same idea as the UAlberta method. But instead of computing every possible pair p, q in the best MST, it saves some computation by taking the idea of sparse table. It only computes the max edge on the path from u to its ancestor with a difference of 2^i in depth.
