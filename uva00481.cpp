@@ -1,6 +1,6 @@
 //
 //  uva00481.cpp
-//  
+//
 //
 //  Created by 赵洋 on 15/11/9.
 //
@@ -18,11 +18,11 @@ int main(){
     while(cin >> input, !cin.eof()){
         X.push_back(input);
     }
-    
+
     int n = X.size();
     vector<int> M(n+1, 0);  // M[i] stores the index of the smallest value X[k] which is the        last element ending at a sequence of length i
     vector<int> P(n, 0);    // P[i] stores the index of the previous element of X[k] in the increasing sequence
-    
+
     int L = 0;  // the length of the LIS we have found
     for(int i = 0; i < n; ++i){
         int lo = 1, hi = L, mid;
@@ -34,10 +34,10 @@ int main(){
                 hi = mid - 1;
             }
         }
-        
+
         M[lo] = i;
         P[i] = M[lo - 1];
-        
+
         if(lo > L){
             L = lo;
         }
@@ -49,10 +49,10 @@ int main(){
         answer[i-1] = X[index];
         index = P[index];
     }
-    
+
     cout << L << endl;
     cout << "-" << endl;
-    
+
     for(int i = 0; i < L; ++i){
         cout << answer[i] << endl;
     }
