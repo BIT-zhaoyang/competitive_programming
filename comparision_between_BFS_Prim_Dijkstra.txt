@@ -1,0 +1,78 @@
+===================== BFS ========================
+vi d(V, UNVISITED);
+queue<int> q;
+void BFS(itn source){
+    d[s] = 0;
+    q.push(source);
+
+    int p, q;
+    while(!Q.emtpy()){
+        p = Q.front();  Q.pop();
+        for(int i = 0; i < AdjList[p].size(); ++i){
+            q = AdjList[p][i];
+            if(d[q] == UNVISITED){
+                d[q] = d[p] + 1;
+                Q.push(q);
+            }
+        }
+    }
+
+}
+
+====================== Prim ======================
+vector<bool> taken(V, false);
+priority_queue<int, vector<int>, greater<int> > pq;
+
+void process(int u){
+    taken[u] = true;
+    for(int i = 0; i < AdjList[u].size(); ++i){
+        ii q = AdjList[u][i];
+        if(!taken[q.first])  pq.push(ii(q.second, q.first));
+    }
+}
+
+int Prim(int source){
+    int cost = 0;
+    pq.push(ii(0, source));
+
+    while(!pq.empty()){
+        ii p = pq.top();  pq.pop();
+        if(!taken[p.second]){
+            cost += p.first;
+            process(p.second);
+        }
+    }
+}
+
+==================== Dijkstra =====================
+vi dist(V, INT_MAX);
+priority_queue< int, vector<int>, greater<int> > pq;
+
+void Dijkstra(int source){
+    dist[source] = 0;
+    pq.push(ii(0, source));
+
+    while(!pq.empty()){
+        ii p = pq.top();    pq.pop();
+
+        int d = p.first, u = p.second;
+        if(d > dist[u])    continue;
+        for(int i = 0; i < AdjList[u].size(); ++i){
+            ii q = AdjList[u][i];
+            if(dist[u] + q.second < dist[q.first]){
+                dist[q.first] = dist[u] + q.second;
+                pq.push(ii(dist[q.first], q.first));
+            }
+        }
+    }
+
+}
+
+================ Summary =====================
+All these 3 algorithms need to check some conditions prior choosing a new node for processing next which ensures that all nodes are processed only once.
+
+In BFS, the condition is: have we already processed this node already? if(d[q] == UNVISITED)? In the other two, the above checking varies by reading values from the vectors of 'taken' and 'dist', respectively. However, these two vectors also serves as other purpose.
+
+In the latter two algorithms, we used lazy deletion in the priority_queue which means that the 'pq' has duplicated instances of the same nodes. Thus, we may face the duplicated processing problem not only by choosing a new node to add to the queue, but also when we extract a node from the queue. Thus, after we extract a node from the queue, we have an additional check, as shown in line 40 & line 59.
+
+The final difference is between Prim and Dijkstra. Dijkstra's algorithm can be a more clever trick to prevent adding too many duplicated nodes. Line 62 serves for two purposes. The first is what we mentioned in the above paragraph. The other is that, we only add this node again if we have found a better solution related to this node. This reduces some unnecessary duplicated insertion of the same node to the queue.
