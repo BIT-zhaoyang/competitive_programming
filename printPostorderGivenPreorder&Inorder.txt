@@ -1,0 +1,35 @@
+Given printed sequence of preOrder and inOrder traversal on a tree, how to print the postorder traversal on the tree?
+Solution: [ref: bit.ly/2dr7pVA]
+Let's simplify the problem, given above information, how can you find out the root of the tree? This question can be answered in constant time. The first element of the inOrder sequence is the root. OK. Now you have the root, how can you find all elements in the left subtree of the root and elements in the right subtree of the root? This question is also easy to answer. All elements on the left to the root in the inOrder sequence are in the left subtree. Similarly, elements on the right to the root in the inOrder sequence are in the right subtree. What's more, having this information, you are able to tell how many nodes there are in the left subtree and right subtree.
+
+After obtaining above observations, how do you solve the original problem? The answer is easy, solve it recursivly!
+
+assume inOrder & preOrder are global variables
+
+int find(int root, int inLeft, int inRight){
+    // find the index of the root in the inOrder sequence
+    for(int i = inLeft; i < inRight; ++i)
+        if(inOrder[i] == root)
+            return i;
+}
+
+void findRoot(int inLeft, int inRight, int preLeft, int preRight){
+    // base case: null node
+    if(inLeft == inRight)   return;
+
+    // This recursive function works on the part inOrder[inLeft, inRight)
+    //                                       and preOrder[preLeft, preRight)
+    int root = preOrder[preLeft];
+    int inOrderIdx = find(root, inLeft, inRight);
+    int nEleLeft = inOrderIdx - inLeft; // number of elements in left subtree
+
+    // since we are printing post traverse, we need to print the left part first
+    // thus we recurse on left subtree first
+    findRoot(inLeft, inOrderIdx, preLeft + 1, preLeft + 1 + nEleLeft);
+
+    // then recurse on right subtree
+    findRoot(inOrderIdx + 1, inRight, preLeft + 1 + nEleLeft, preRight);
+
+    // print the root in current subtree
+    cout << root << " ";
+}
