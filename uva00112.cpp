@@ -8,6 +8,17 @@ using namespace std;
 typedef long long int64;
 typedef pair<int, int> ii;
 
+/* Lesson learned:
+    1. If you can use system stack, for example, by doing recursion,
+       then use it! Don't make a stack<T> and mock the process by yourself.
+       You may easily make mistake about when to pop an element.
+    2. This situation is likely to appear while processing a tree. 
+       In recursion, it would be better to just return some value for processing base cases.
+       Leave the complex logic judgement back to the non-base case calls. In another
+       word, try to process logic judgement only in the current layer, don't push
+       that judgement down to deeper recursions.
+*/
+
 // =============== Solution 1: build the tree explicitly ===============
 // struct Node{
 //     Node(int _val): val(_val){}
