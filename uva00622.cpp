@@ -13,7 +13,10 @@ bool sanityCheck(string &str){
     strcpy(cstr, str.c_str());
 
     // 1. check if there is any invalid characters
-    if(strtok(cstr, "0123456789()+*") != NULL)  return false;
+    if(strtok(cstr, "0123456789()+*") != NULL){
+        delete []cstr;
+        return false;
+    }
 
     // 2. check balanced parenthesis
     // also ensure that no digits stands before '(' nor after ')'
@@ -33,7 +36,10 @@ bool sanityCheck(string &str){
             case '+':
             case '*':   ++nOp;   break;
         }
-        if(nOpen < 0)   return false;
+        if(nOpen < 0){
+            delete []cstr;
+            return false;
+        }
     }
 
     // 3. check if #operation + 1 = #numbers
@@ -43,7 +49,7 @@ bool sanityCheck(string &str){
         ++nNum;
         pch = strtok(NULL, "()+*");
     }
-
+    delete []cstr;
     return nOp + 1 == nNum;
 }
 
