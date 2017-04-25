@@ -10,5 +10,5 @@ typedef pair<int, int> ii;
 
 int main(){ _
 
-    return 0;
+  return 0;
 }
