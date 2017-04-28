@@ -17,8 +17,6 @@ int LIS(vector<int> &vi){
     else *it = val;
   }
 
-  // for(auto ele : seq) cout << ele << " "; cout << endl;
-
   return seq.size();
 }
 
@@ -35,14 +33,9 @@ int main(){ _
 
     for(int i = 0; i <= q; ++i){
       int val;  cin >> val;
-      // cout << val << "(" << pos[val] << ")" << " ";
       if(pos[val] == -1)  continue;
       input.push_back(pos[val]);
     }
-
-    // cout << endl;
-    // for(int i = 0; i < pos.size(); ++i) cout << pos[i] << " ";  cout << endl;
-    // for(int i = 0; i < input.size(); ++i) cout << input[i] << " ";  cout << endl;
 
     cout << LIS(input) << endl;
   }
