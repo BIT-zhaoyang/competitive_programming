@@ -1,0 +1,23 @@
+======== What is essentially DP? ============
+If you are new to DP technique, you can start by assuming that (the ‘top-down’) DP is
+a kind of ‘intelligent’ or ‘faster’ recursive backtracking.[CP3 P95]
+
+The two essential problems to solve are: 1. Define a good state space; 2. Find the transition
+relation between the states. These two essential problems are in fact the same as we need to solve
+in complete search. The additional steps we need to do is that, we should observe the DAG formed,
+according to the transition relation. Then, based on the DAG, we determine the way of computation.
+(This is only necessary for bottom-up solution.)
+
+============ How to find 'A' state space? ===============
+Here I quoted the 'A', because following this procedure, it's not guaranteed to find the OPTIMAL
+state space. To get the optimal one, some extra tricks may be necessary.
+
+The DP problem usually consists of a series of operations, such as, should we pick the current char
+or not? After each operation, the big problem will be splitted into several small problems.
+According to the definition of DP, the smaller problems should have the same essence as the big
+problem. Then, pick one of the smaller problem, and select a metric to describe both the small and
+big problem. Are they similar? If yes, then we have find a state space.
+
+Extra tricks including space compression, etc, which uses another set of coordinates to eliminate
+non-reachable states, so that to reduce the total number of useful states. This helps reduce memory
+usage.
